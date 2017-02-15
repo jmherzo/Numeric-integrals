@@ -8,6 +8,7 @@ Refresh of Spherical Coordinates:
 http://mathworld.wolfram.com/SphericalCoordinates.html
 
 Triple integrals on spheres with spherical coordinates:
+http://math.harvard.edu/~ytzeng/worksheet/1104_sol.pdf
 http://math.stackexchange.com/questions/42526/finding-the-volume-of-a-sphere-with-a-triple-integral-and-trig-sub
 
 
