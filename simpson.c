@@ -35,7 +35,7 @@ int n = 100000;
 double a = 0.0;
 double b = 5.0;
 
-#define NUM_THREADS 1
+#define NUM_THREADS 9
 
 double funcDeX (double x);
 
@@ -47,7 +47,7 @@ double funcDeX (double x)
 
 int main()
 {
-	int i, nthreads;
+	int i, nthreads, sum[NUM_THREADS];
 	double h, x1[n], x2[n], x, xi0, xi1, xi2, res, t1, t2, tiempo;
 	
 	omp_set_num_threads(NUM_THREADS);
@@ -84,6 +84,7 @@ int main()
 				x1[i] = funcDeX(x);
 				x2[i] = 0;
 			}
+			sum[id]+=1;
 		}
 	}
 	
@@ -95,11 +96,14 @@ int main()
 			xi1 += x1[i];
 	}	
 
+	for (i=0; i<NUM_THREADS; i++)
+		printf("EL thread %d hizo: %d operaciones\n",i,sum[i]);
+
 	res = (h/3.0)*(xi0 + 2.0*xi2 + 4.0*xi1);
 
 	t2=omp_get_wtime();
 	const double endTime = omp_get_wtime();
 	tiempo=t2-t1;
 
-	printf("Threads: %d\nTiempo: %lf Respuesta: %f\n", NUM_THREADS, tiempo, res);
+	printf("Se usaron %d threads \nEn un tiempo de %lf segundos\nRespuesta: %f\n", NUM_THREADS, tiempo, res);
 }

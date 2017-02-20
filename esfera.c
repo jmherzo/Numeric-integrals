@@ -16,7 +16,7 @@ double theta1 = 0;
 
 int main()
 {
-	int i, nthreads;
+	int i, nthreads, sum[NUM_THREADS];
 	double hp, ht, hph, xi0p, xi1p[n], xi2p[n], xp, xip, xi0t, xi1t[n], xi2t[n], xt, xit, xi0ph, xi1ph[n], xi2ph[n], xph, xiph, t1, t2, tiempo, x2p, x1p, x2t, x1t, x2ph, x1ph;
 	
 	omp_set_num_threads(NUM_THREADS);
@@ -67,7 +67,9 @@ int main()
 				xi1t[i] = 1;
 				xi1ph[i] = sin(xph);
 			}
+			sum[id]+=1;
 		}
+		
 	}
 	
 	for(i = 1; i < n; i++)
@@ -86,6 +88,9 @@ int main()
 		}
 	}
 
+	for (i=0; i<NUM_THREADS; i++)
+		printf("EL thread %d hizo: %d operaciones\n",i,sum[i]);
+
 	xip = (hp/3.0)*(xi0p + 2.0*x2p + 4.0*x1p);
 	xit = (ht/3.0)*(xi0t + 2.0*x2t + 4.0*x1t);
 	xiph = (hph/3.0)*(xi0ph + 2.0*x2ph + 4.0*x1ph);
@@ -93,9 +98,11 @@ int main()
 	t2=omp_get_wtime();
 	const double endTime = omp_get_wtime();
 	tiempo=t2-t1;
-
+	/*
 	printf("Resultado: %lf\n", xip*xit*xiph);
 	printf("Tiempo: %lf\n", tiempo);
 	printf("NUM_THREADS: %d\n", NUM_THREADS);
+	*/
+	printf("Se usaron %d threads \nEn un tiempo de %lf segundos\nRespuesta: %f\n", NUM_THREADS, tiempo, xip*xit*xiph);
 
 }
